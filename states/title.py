@@ -1,12 +1,14 @@
 from states.state import State
-from states.titlemenu import TitleMenu
 
 class Title(State):
     def __init__(self, game):
-        State.__init__(self, game)
+        super().__init__(game)
+        from states.titlemenu import TitleMenu
+        self.title_menu = TitleMenu(game)
 
     def update(self, actions):
         if actions["start"]:
+            from states.titlemenu import TitleMenu
             new_state = TitleMenu(self.game)
             new_state.enter_state()
         self.game.reset_keys()
