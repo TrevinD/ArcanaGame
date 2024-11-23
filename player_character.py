@@ -1,5 +1,5 @@
 from states.state import State
-from ui.ui_elements import TextInputBox
+from ui.ui_elements import TextInputBox, Text
 # character_creation.py (updated)
 
 class CharacterCreation(State):
@@ -16,7 +16,7 @@ class CharacterCreation(State):
 
     def render(self, surface):
         surface.fill(self.game.BLACK)
-        self.game.draw_text(surface, "Enter Character Name", 20, self.game.WHITE, self.game.GAME_W // 2, 100)
+        Text(surface, "Enter Character Name", 20, self.game.WHITE, self.game.GAME_W // 2, 100)
         self.text_input_box.draw(surface)
 
     def on_name_confirmed(self, name):

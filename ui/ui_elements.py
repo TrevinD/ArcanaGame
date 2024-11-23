@@ -2,9 +2,36 @@ import pygame
 
 import constants
 from constants import *
+from assets.asset_manager import *
 
 
 # ui_elements.py (updated)
+class Text():
+    def __init__(self, text, font, size, color, x, y):
+        self.text = text
+        self.font = font
+        self.size = size
+        self.color = color
+        self._rendered_text = None
+        self._render_cache = {}  # Localized cache for this text element
+
+    def render(self, screen):
+        if self._rendered_text is None or (self.text, self.size, self.color) not in self._render_cache:
+            self._rendered_text = self._render_text()
+            self._render_cache[(self.text, self.size, self.color)] = self._rendered_text
+        screen.blit(self._rendered_text, (self.x, self.y))
+
+    def _render_text(self):
+        asset_manager = AssetManager()
+        return asset_manager.render_text(self.font, self.text, self.size, self.color)
+
+class Button():
+    #... (existing code, potentially using the new Text class)
+    pass
+
+class Label(Text):
+    #... (existing code, potentially using the new Text class)
+    pass
 
 class TextInputBox:
     def __init__(self, x, y, width, height, initial_text='', font_size=FONT_SIZE,
@@ -52,3 +79,4 @@ class TextInputBox:
         if self.confirm_requested:
             confirm_text = self.confirm_font.render(self.confirm_prompt.format(self.text), True, BLACK)
             screen.blit(confirm_text, (self.rect.x, self.rect.y + self.rect.height + 10))
+
